@@ -1,11 +1,12 @@
 import Button from "../../components/Button/Button";
+import HeroSlideShow from "./HeroSlideShow";
 import MenuCarousel from "./menuCarousel";
 export default function HomePage() {
   return (
     <>
       <div className="h-[675px] flex w-full justify-center">
         <div className="flex items-center w-full max-w-[1440px] gap-[30px]">
-          <div className="flex flex-col justify-center items-center gap-[32px] flex-[4]">
+          <div className="flex flex-col justify-center items-center gap-[32px] z-10 flex-[4]">
             <img src="./heroPic.png" alt="NaUdon" className="w-[304px]" />
             <div>
               <h5>"อร่อยครบรส เพราะชูรสครึ่งซอง"</h5>
@@ -15,9 +16,8 @@ export default function HomePage() {
               <Button size="big" type="primary" message="สั่งชื้อตอนนี้" />
             </div>
           </div>
-          <div className="flex items-center flex-[6] gap-[60px] overflow-hidden h-[600px]">
-            <img src="/pic1.png" alt="" className="w-[400px] h-[600px]" />
-            <img src="/pic2.png" alt="" className="w-[300px] h-[450px]" />
+          <div className="flex items-center flex-[6] gap-[60px] overflow-hidden h-[600px] ml-[-500px]">
+            <HeroSlideShow />
           </div>
         </div>
       </div>

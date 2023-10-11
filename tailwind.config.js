@@ -16,6 +16,7 @@ export default {
       whitetext: "#FFFBF2",
       mygreen: "#94CE61",
       myblue: "#0EA5E9",
+      red: "#ff3333",
     },
     fontWeight: {
       light: "200",

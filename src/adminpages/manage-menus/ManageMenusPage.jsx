@@ -1,3 +1,13 @@
+import MenuList from "./MenuList";
+
 export default function ManageMenuPage() {
-  return <h1>Managemenus</h1>;
+  return (
+    <div className="bg-primaryLight h-full">
+      <div>
+        <MenuList />
+      </div>
+      <div></div>
+      <div></div>
+    </div>
+  );
 }

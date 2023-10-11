@@ -45,7 +45,9 @@ export default function NavBar() {
       {authUser?.role != "ADMIN" && (
         <Button message="สั่งชื้อตอนนี้" size="small" type="primary" />
       )}
-      {!authUser && isOpen && <UserModal />}
+      {!authUser && isOpen && (
+        <UserModal setIsOpen={setIsOpen} isOpen={isOpen} />
+      )}
       {authUser?.role === "MEMBER" && <UserDropDown />}
       {authUser?.role === "ADMIN" && <AdminDropDown />}
     </nav>

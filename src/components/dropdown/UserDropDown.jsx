@@ -25,7 +25,9 @@ export default function UserDropDown() {
               </div>
               <div className="flex item-center gap-3">
                 <img src="/icons/Email.png" className="w-[25px]" />
-                <p className="text-darktext">: {`${authUser.email}`}</p>
+                <p className="text-darktext">
+                  : {`${authUser.email || "ไม่ระบุ"}`}
+                </p>
               </div>
               <div className="flex gap-3">
                 <p className="text-darktext">

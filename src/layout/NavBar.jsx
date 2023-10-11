@@ -4,6 +4,8 @@ import Button from "../components/Button/Button";
 import { useState } from "react";
 import UserModal from "../components/usermodal/UserModal";
 import useAuth from "../hook/use-auth";
+import UserDropDown from "../components/dropdown/UserDropDown";
+import AdminDropDown from "../components/dropdown/AdminDropDown";
 
 export default function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,7 +21,7 @@ export default function NavBar() {
     menus = [
       { id: 1, to: "/admin/orders", message: "จัดการออเดอร์" },
       { id: 2, to: "/admin/menus", message: "จัดการเมนู" },
-      { id: 3, to: "/admin/summary", message: "สรุป" },
+      { id: 3, to: "/admin/", message: "สรุป" },
     ];
   }
   return (
@@ -44,16 +46,8 @@ export default function NavBar() {
         <Button message="สั่งชื้อตอนนี้" size="small" type="primary" />
       )}
       {!authUser && isOpen && <UserModal />}
-      {authUser?.role === "MEMBER" && (
-        <div className="w-[50px] aspect-square cursor-pointer">
-          <img src="/icons/User.png" alt="user" />
-        </div>
-      )}
-      {authUser?.role === "ADMIN" && (
-        <div className="w-[50px] aspect-square cursor-pointer">
-          <img src="/icons/User.png" alt="user" />
-        </div>
-      )}
+      {authUser?.role === "MEMBER" && <UserDropDown />}
+      {authUser?.role === "ADMIN" && <AdminDropDown />}
     </nav>
   );
 }

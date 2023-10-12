@@ -8,6 +8,7 @@ import ManageMenuPage from "../adminpages/manage-menus/ManageMenusPage";
 import SummaryPage from "../adminpages/summary/SummaryPage";
 import RedirectIfAdmin from "./RedirectIfAdmin";
 import RedirectIfNotAdmin from "./RedirectIfNotAdmin";
+import MenuContextProvider from "../contexts/MenuContext";
 
 const router = createBrowserRouter([
   {
@@ -33,7 +34,14 @@ const router = createBrowserRouter([
     children: [
       { path: "", element: <SummaryPage /> },
       { path: "orders", element: <ManageOrderPage /> },
-      { path: "menus", element: <ManageMenuPage /> },
+      {
+        path: "menus",
+        element: (
+          <MenuContextProvider>
+            <ManageMenuPage />
+          </MenuContextProvider>
+        ),
+      },
     ],
   },
 ]);

@@ -9,10 +9,10 @@ export default function AdminDropDown() {
   return (
     <div className="relative" ref={dropDownEl}>
       <div
-        className="w-[50px] aspect-square cursor-pointer"
+        className="w-[6vh] aspect-square cursor-pointer"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <img src="/icons/Admin.png" alt="user" />
+        <img src="/icons/Admin.png" alt="user" className="w-full" />
       </div>
       {isOpen && (
         <div className="absolute w-80 bg-mybackground right-0 translate-y-3 border-4 border-secondary rounded-lg shadow-md p-2 z-30">

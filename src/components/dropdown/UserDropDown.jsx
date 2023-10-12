@@ -9,10 +9,10 @@ export default function UserDropDown() {
   return (
     <div className="relative" ref={dropDownEl}>
       <div
-        className="w-[50px] aspect-square cursor-pointer"
+        className="h-[6vh] aspect-square cursor-pointer"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <img src="/icons/User.png" alt="user" />
+        <img src="/icons/User.png" alt="user" className="w-full" />
       </div>
       {isOpen && (
         <div className="absolute w-80 bg-mybackground right-0 translate-y-3 border-4 border-myyellow rounded-lg shadow-md p-2 z-30">

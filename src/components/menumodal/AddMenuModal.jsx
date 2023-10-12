@@ -1,6 +1,5 @@
 import { useState, useRef } from "react";
 import Loading from "../Loading/Loading";
-import useAuth from "../../hook/use-auth";
 import Joi from "joi";
 import { toast } from "react-toastify";
 import axios from "axios";
@@ -14,7 +13,7 @@ const addMenuSchema = Joi.object({
   description: Joi.string().allow(""),
 });
 
-export default function AddMenuModal() {
+export default function AddMenuModal({ catagory }) {
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const fileEl = useRef(null);
@@ -22,7 +21,7 @@ export default function AddMenuModal() {
     menuImage: "",
     menuName: "",
     price: "",
-    catagory: "",
+    catagory: catagory,
     status: "",
     description: "",
   });
@@ -32,6 +31,15 @@ export default function AddMenuModal() {
       const res = await axios.post("/menu/create", data);
       toast.success("เพิ่มเมนูสำเร็จ");
       setIsOpen(false);
+      setLoading(false);
+      setInput({
+        menuImage: "",
+        menuName: "",
+        price: "",
+        catagory: catagory,
+        status: "",
+        description: "",
+      });
     } catch (err) {
       return toast.error(err.response?.data.message);
     }
@@ -51,20 +59,13 @@ export default function AddMenuModal() {
     if (error) {
       return toast.error("กรุณาใส่ข้อมูลให้ถูกต้องและครบถ้วน");
     }
+    setLoading(true);
     for (let key in input) {
       if (input[key]) {
         formData.append(`${key}`, input[key]);
       }
     }
     createMenu(formData);
-    setInput({
-      menuImage: "",
-      menuName: "",
-      price: "",
-      catagory: "",
-      status: "",
-      description: "",
-    });
   };
 
   return (
@@ -77,7 +78,6 @@ export default function AddMenuModal() {
       </div>
       {isOpen && (
         <>
-          {loading && <Loading />}
           <div className="fixed inset-0 bg-primary opacity-70 z-20"></div>
           <div className="fixed z-30 min-h-full inset-0 flex justify-center items-center">
             <div className="w-[540px] bg-mybackground rounded-3xl overflow-hidden ">
@@ -85,6 +85,7 @@ export default function AddMenuModal() {
                 className="border-4 border-primary"
                 onSubmit={handleSubmitForm}
               >
+                {loading && <Loading />}
                 <header className="bg-primary flex items-center justify-center h-[65px]">
                   <h5 className="text-whitetext">เพิ่มรายการอาหาร</h5>
                 </header>

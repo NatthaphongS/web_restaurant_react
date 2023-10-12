@@ -3,6 +3,7 @@ import Loading from "../Loading/Loading";
 import useAuth from "../../hook/use-auth";
 import Joi from "joi";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 const addMenuSchema = Joi.object({
   menuImage: Joi.any().required(),
@@ -10,7 +11,7 @@ const addMenuSchema = Joi.object({
   price: Joi.number().required(),
   catagory: Joi.string().required(),
   status: Joi.string().required(),
-  description: Joi.string(),
+  description: Joi.string().allow(""),
 });
 
 export default function AddMenuModal() {
@@ -27,8 +28,13 @@ export default function AddMenuModal() {
   });
 
   const createMenu = async (data) => {
-    const res = await axios.post("/menu/post", data);
-    toast.success("เพิ่มเมนูสำเร็จ");
+    try {
+      const res = await axios.post("/menu/create", data);
+      toast.success("เพิ่มเมนูสำเร็จ");
+      setIsOpen(false);
+    } catch (err) {
+      return toast.error(err.response?.data.message);
+    }
   };
   const handleChangeInput = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
@@ -36,14 +42,29 @@ export default function AddMenuModal() {
 
   const handleSubmitForm = (e) => {
     e.preventDefault();
+    const formData = new FormData();
     input.price = +input.price;
+
     const { value, error } = addMenuSchema.validate(input, {
       abortEarly: false,
     });
     if (error) {
       return toast.error("กรุณาใส่ข้อมูลให้ถูกต้องและครบถ้วน");
     }
-    createMenu(value);
+    for (let key in input) {
+      if (input[key]) {
+        formData.append(`${key}`, input[key]);
+      }
+    }
+    createMenu(formData);
+    setInput({
+      menuImage: "",
+      menuName: "",
+      price: "",
+      catagory: "",
+      status: "",
+      description: "",
+    });
   };
 
   return (

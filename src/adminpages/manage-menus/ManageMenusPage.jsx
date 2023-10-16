@@ -2,7 +2,10 @@ import MenuList from "./MenuList";
 
 export default function ManageMenuPage() {
   return (
-    <div className="bg-primaryLight h-[91vh] overflow-auto">
+    <div
+      className="bg-primaryLight overflow-auto"
+      style={{ height: "calc(100vh - 80px)" }}
+    >
       <div>
         <MenuList category={"MAIN"} />
         <MenuList category={"DESSERT"} />

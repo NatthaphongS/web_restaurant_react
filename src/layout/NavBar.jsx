@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import NavBarItem from "./NavBarItem";
 import Button from "../components/Button/Button";
 import { useState } from "react";
@@ -43,11 +43,11 @@ export default function NavBar() {
         </div>
       )}
       {authUser?.role != "ADMIN" && (
-        <Button message="สั่งชื้อตอนนี้" size="small" type="primary" />
+        <Link to="/order">
+          <Button message="สั่งซื้ออาหาร" size="small" type="primary" />
+        </Link>
       )}
-      {!authUser && isOpen && (
-        <UserModal setIsOpen={setIsOpen} isOpen={isOpen} />
-      )}
+      {!authUser && isOpen && <UserModal setIsOpen={setIsOpen} />}
       {authUser?.role === "MEMBER" && <UserDropDown />}
       {authUser?.role === "ADMIN" && <AdminDropDown />}
     </nav>

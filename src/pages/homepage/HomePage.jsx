@@ -1,7 +1,11 @@
+import { Link } from "react-router-dom";
 import Button from "../../components/Button/Button";
 import HeroSlideShow from "./HeroSlideShow";
 import MenuCarousel from "./menuCarousel";
+import { useState } from "react";
+import UserModal from "../../components/usermodal/UserModal";
 export default function HomePage() {
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <>
       <div className="h-[675px] flex w-full justify-center">
@@ -12,8 +16,16 @@ export default function HomePage() {
               <h5>"อร่อยครบรส เพราะชูรสครึ่งซอง"</h5>
             </div>
             <div className="flex gap-[100px]">
-              <Button size="big" type="secondary" message="เข้าสู่ระบบ" />
-              <Button size="big" type="primary" message="สั่งชื้อตอนนี้" />
+              <Button
+                size="big"
+                type="secondary"
+                message="เข้าสู่ระบบ"
+                onClick={() => setIsOpen(true)}
+              />
+              {isOpen && <UserModal setIsOpen={setIsOpen} />}
+              <Link to="/order">
+                <Button size="big" type="primary" message="สั่งชื้อตอนนี้" />
+              </Link>
             </div>
           </div>
           <div className="flex items-center flex-[6] gap-[60px] overflow-hidden h-[600px] ml-[-500px]">
@@ -36,7 +48,9 @@ export default function HomePage() {
       <div className="flex flex-1 flex-col items-center justify-center gap-[42px] max-w-[1440px] mx-auto my-7">
         <h2>เมนูแนะนำ</h2>
         <MenuCarousel />
-        <Button message="ดูเมนูทั้งหมด" />
+        <Link to="/menu">
+          <Button message="ดูเมนูทั้งหมด" />
+        </Link>
       </div>
       <div className="flex w-full max-w-[1440px] justify-center items-center mx-auto py-7 pb-[100px]">
         <div className="flex flex-[2] items-center justify-center">

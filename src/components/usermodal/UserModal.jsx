@@ -2,8 +2,8 @@ import { useState } from "react";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
 
-export default function UserModal({ setIsOpen }) {
-  const [form, setForm] = useState("login");
+export default function UserModal({ setIsOpen, option = "login" }) {
+  const [form, setForm] = useState(option);
   return (
     <>
       <div className="fixed inset-0 bg-primary opacity-70 z-20"></div>

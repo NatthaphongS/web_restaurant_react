@@ -15,10 +15,10 @@ export default function EditMenuModal({
   const [input, setInput] = useState({
     menuImage: menuDetail?.menuImage,
     menuName: menuDetail?.menuName,
+    category: menuDetail?.category,
     price: menuDetail?.price,
-    catagory: menuDetail?.catagory,
     status: menuDetail?.status,
-    description: menuDetail?.description,
+    description: menuDetail?.description || "",
   });
   const { addMenuSchema: editMenuSchema, editMenu, deleteMenu } = useMenu();
 
@@ -45,6 +45,7 @@ export default function EditMenuModal({
         abortEarly: false,
       });
       if (error) {
+        console.log(error);
         return toast.error("กรุณาใส่ข้อมูลให้ถูกต้องและครบถ้วน");
       }
       setLoading(true);
@@ -147,8 +148,8 @@ export default function EditMenuModal({
 
               <div className="flex gap-4">
                 <select
-                  name="catagory"
-                  value={input.catagory}
+                  name="category"
+                  value={input.category}
                   onChange={handleChangeInput}
                   className="flex-1 border-b-2 bg-mybackground outline-none"
                 >

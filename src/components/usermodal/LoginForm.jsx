@@ -3,7 +3,7 @@ import LoginInput from "./LoginInput";
 import useAuth from "../../hook/use-auth";
 import { toast } from "react-toastify";
 
-export default function LoginForm() {
+export default function LoginForm({ setIsOpen }) {
   const [input, setInput] = useState({ emailOrMobile: "", password: "" });
 
   const { login } = useAuth(); //{login:login}
@@ -11,11 +11,14 @@ export default function LoginForm() {
   // sent request
   // localstorage setItem('token')
   // stage => user (used many where should keep in context)
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    login(input).catch((err) => {
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      await login(input);
+      setIsOpen(false);
+    } catch (err) {
       toast.error(err.response?.data.message);
-    });
+    }
   };
   return (
     <form

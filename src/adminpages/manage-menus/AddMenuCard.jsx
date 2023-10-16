@@ -1,7 +1,7 @@
 import { useState } from "react";
 import AddMenuModal from "../../components/menumodal/AddMenuModal";
 
-export default function AddMenuCard({ catagory, allMenu, setAllMenu }) {
+export default function AddMenuCard({ category, allMenu, setAllMenu }) {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <>
@@ -14,7 +14,7 @@ export default function AddMenuCard({ catagory, allMenu, setAllMenu }) {
       {isOpen && (
         <AddMenuModal
           setIsOpen={setIsOpen}
-          catagory={catagory}
+          category={category}
           allMenu={allMenu}
           setAllMenu={setAllMenu}
         />

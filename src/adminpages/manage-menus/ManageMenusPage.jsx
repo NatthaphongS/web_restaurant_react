@@ -4,9 +4,9 @@ export default function ManageMenuPage() {
   return (
     <div className="bg-primaryLight h-[91vh] overflow-auto">
       <div>
-        <MenuList catagory={"MAIN"} />
-        <MenuList catagory={"DESSERT"} />
-        <MenuList catagory={"DRINK"} />
+        <MenuList category={"MAIN"} />
+        <MenuList category={"DESSERT"} />
+        <MenuList category={"DRINK"} />
       </div>
     </div>
   );

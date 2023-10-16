@@ -8,7 +8,7 @@ import useAuth from "../../hook/use-auth";
 const registerSchema = Joi.object({
   firstName: Joi.string().trim().required(),
   lastName: Joi.string().trim().required(),
-  email: Joi.string().email({ tlds: false }).allow(""),
+  email: Joi.string().email({ tlds: false }).allow(null).allow(""),
   mobile: Joi.string()
     .pattern(/^[0-9]{10}$/)
     .required(),
@@ -36,7 +36,7 @@ const validateRegister = (input) => {
   }
 };
 
-export default function RegisterForm() {
+export default function RegisterForm({ setIsOpen }) {
   const [input, setInput] = useState({
     firstName: "",
     lastName: "",
@@ -51,17 +51,20 @@ export default function RegisterForm() {
     setInput({ ...input, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // validate
-    const validationError = validateRegister(input); // undefined หรือ  error object
-    if (validationError) {
-      return setError(validationError);
-    }
-    setError({});
-    register(input).catch((err) => {
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      // validate
+      const validationError = validateRegister(input); // undefined หรือ  error object
+      if (validationError) {
+        return setError(validationError);
+      }
+      setError({});
+      await register(input);
+      setIsOpen(false);
+    } catch (err) {
       toast.error(err.response?.data.message);
-    });
+    }
   };
 
   return (

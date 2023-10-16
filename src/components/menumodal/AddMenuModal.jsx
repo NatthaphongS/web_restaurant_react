@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import useMenu from "../../hook/use-menu";
 
 export default function AddMenuModal({
-  catagory,
+  category,
   setIsOpen,
   allMenu,
   setAllMenu,
@@ -16,7 +16,7 @@ export default function AddMenuModal({
     menuImage: "",
     menuName: "",
     price: "",
-    catagory: catagory,
+    category: category,
     status: "",
     description: "",
   });
@@ -54,7 +54,7 @@ export default function AddMenuModal({
         menuImage: "",
         menuName: "",
         price: "",
-        catagory: catagory,
+        category: category,
         status: "",
         description: "",
       });
@@ -131,8 +131,8 @@ export default function AddMenuModal({
 
               <div className="flex gap-4">
                 <select
-                  name="catagory"
-                  value={input.catagory}
+                  name="category"
+                  value={input.category}
                   onChange={handleChangeInput}
                   className="flex-1 border-b-2 bg-mybackground outline-none"
                 >

@@ -38,7 +38,11 @@ export default function UserModal({ setIsOpen }) {
                 </p>
               </div>
             </header>
-            {form == "login" ? <LoginForm /> : <RegisterForm />}
+            {form == "login" ? (
+              <LoginForm setIsOpen={setIsOpen} />
+            ) : (
+              <RegisterForm setIsOpen={setIsOpen} />
+            )}
           </div>
         </div>
       </div>

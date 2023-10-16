@@ -10,17 +10,17 @@ export default function MenuContextProvider({ children }) {
     menuImage: Joi.any().required(),
     menuName: Joi.string().trim().required(),
     price: Joi.number().required(),
-    catagory: Joi.string().required(),
+    category: Joi.string().required(),
     status: Joi.string().required(),
-    description: Joi.string().allow(null),
+    description: Joi.string().allow(""),
   });
 
-  const getMenu = async (catagory) => {
+  const getMenu = async (category) => {
     try {
-      if (!catagory) {
-        catagory = "all";
+      if (!category) {
+        category = "all";
       }
-      const menus = await axios.get(`/menu/${catagory}`);
+      const menus = await axios.get(`/menu/${category}`);
       return menus; //[({}, {}, {}, {}, {})];
     } catch (err) {
       console.log(err);

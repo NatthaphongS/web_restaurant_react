@@ -37,7 +37,6 @@ export default function MenuContextProvider({ children }) {
 
   const editMenu = async (id, editData) => {
     try {
-      console.log("=====3");
       return await axios.patch(`/menu/edit/${id}`, editData);
     } catch (err) {
       console.log(err);

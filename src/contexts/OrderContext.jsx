@@ -49,7 +49,9 @@ export default function OrderContextProvider({ children }) {
   };
 
   return (
-    <OrderContext.Provider value={{ order, addToCart, removeFromCart }}>
+    <OrderContext.Provider
+      value={{ order, addToCart, removeFromCart, setOrder }}
+    >
       {children}
     </OrderContext.Provider>
   );

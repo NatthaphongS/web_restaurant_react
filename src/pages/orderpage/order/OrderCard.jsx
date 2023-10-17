@@ -21,7 +21,7 @@ export default function OrderCard({ menuDetail }) {
             {price} บาท
           </p>
           {/* <button onClick={() => addToCart(id)}>add</button> */}
-          <OrderButton id={id} />
+          <OrderButton menuDetail={menuDetail} />
         </div>
       </div>
     </div>

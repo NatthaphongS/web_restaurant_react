@@ -3,6 +3,7 @@ import OrderHeader from "./order/orderHeader";
 import OrderCard from "./order/OrderCard";
 import useMenu from "../../hook/use-menu";
 import "./OrderPage.css";
+import OrderForm from "./cart/OrderForm";
 
 export default function OrderPage() {
   const [category, setCategory] = useState("MAIN");
@@ -23,7 +24,9 @@ export default function OrderPage() {
           ))}
         </div>
       </div>
-      <div className="h-full flex-[3] bg-primary"></div>
+      <div className="h-full flex-[3] border-l-4 border-primary">
+        <OrderForm />
+      </div>
     </div>
   );
 }

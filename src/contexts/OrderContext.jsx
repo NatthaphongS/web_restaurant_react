@@ -1,27 +1,51 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 export const OrderContext = createContext();
 
-export default function OrderContextProvider({ children }) {
-  const [order, setOrder] = useState({});
+const cartOrderFromLocalStorage =
+  JSON.parse(localStorage.getItem("cartOrder")) || [];
 
-  const addToCart = (menuId) => {
-    if (`${menuId}` in order) {
-      return setOrder((prev) => ({ ...prev, [menuId]: prev[menuId] + 1 }));
+export default function OrderContextProvider({ children }) {
+  const [order, setOrder] = useState(cartOrderFromLocalStorage);
+
+  useEffect(() => {
+    localStorage.setItem("cartOrder", JSON.stringify(order));
+  }, [order]);
+
+  //menuDetail ={id:1,menuImage:dsajdkl,menuName:dasjkhd,price:50}
+
+  const addToCart = (menuDetail) => {
+    const menuExistIndex = order.findIndex((el) => el.id === menuDetail.id);
+    if (menuExistIndex !== -1) {
+      setOrder((prev) => {
+        const updatedOrder = [...prev];
+        updatedOrder[menuExistIndex].amount += 1;
+        return updatedOrder;
+      });
+    } else {
+      setOrder((prev) => [...prev, { ...menuDetail, amount: 1 }]);
     }
-    return setOrder((prev) => ({ ...prev, [menuId]: 1 }));
+    return;
   };
 
-  const removeFromCart = (menuId) => {
-    if (order && !order[menuId]) {
+  const removeFromCart = (menuDetail) => {
+    const menuExistIndex = order.findIndex((el) => el.id === menuDetail.id);
+    if (menuExistIndex !== -1) {
+      if (order[menuExistIndex].amount > 1) {
+        setOrder((prev) => {
+          const updatedOrder = [...prev];
+          updatedOrder[menuExistIndex].amount -= 1;
+          return updatedOrder;
+        });
+      } else {
+        setOrder((prev) => {
+          const updatedOrder = [...prev];
+          updatedOrder.splice(menuExistIndex, 1);
+          return updatedOrder;
+        });
+      }
       return;
     }
-    if (order && order[menuId] == 1) {
-      delete order[menuId];
-      const newOrder = { ...order };
-      return setOrder(newOrder);
-    }
-    return setOrder((prev) => ({ ...prev, [menuId]: prev[menuId] - 1 }));
   };
 
   return (

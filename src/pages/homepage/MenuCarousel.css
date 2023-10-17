@@ -20,7 +20,7 @@
   margin: auto;
   overflow: hidden;
   position: relative;
-  width: 1440px;
+  max-width: 1330px;
 }
 .slider::before,
 .slider::after {

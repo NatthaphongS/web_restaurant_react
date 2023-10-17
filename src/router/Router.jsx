@@ -11,6 +11,8 @@ import RedirectIfNotAdmin from "./RedirectIfNotAdmin";
 import MenuContextProvider from "../contexts/MenuContext";
 import OrderPage from "../pages/orderpage/OrderPage";
 import RedirectIfNotMember from "./RedirectIfNotMember";
+import RedirectIfMember from "./RedirectIfMember";
+import OrderContextProvider from "../contexts/OrderContext";
 
 const router = createBrowserRouter([
   {
@@ -30,12 +32,23 @@ const router = createBrowserRouter([
           </MenuContextProvider>
         ),
       },
-      { path: "requestlogin", element: <RequestLoginPage /> },
+      {
+        path: "requestlogin",
+        element: (
+          <RedirectIfMember>
+            <RequestLoginPage />
+          </RedirectIfMember>
+        ),
+      },
       {
         path: "order",
         element: (
           <RedirectIfNotMember>
-            <OrderPage />
+            <MenuContextProvider>
+              <OrderContextProvider>
+                <OrderPage />
+              </OrderContextProvider>
+            </MenuContextProvider>
           </RedirectIfNotMember>
         ),
       },

@@ -25,7 +25,7 @@ export default function NavBar() {
     ];
   }
   return (
-    <nav className="flex items-center justify-end gap-[24px] text-whitetext">
+    <nav className="flex items-center justify-end gap-[24px] text-whitetext h-full">
       {menus.map((el) => (
         <NavBarItem
           key={el.id}
@@ -44,7 +44,9 @@ export default function NavBar() {
       )}
       {authUser?.role != "ADMIN" && (
         <Link to="/order">
-          <Button message="สั่งซื้ออาหาร" size="small" type="primary" />
+          <div className="flex justify-center items-center rounded-xl cursor-pointer w-[125px] h-[40px] font-semibold text-lg bg-secondary text-primary hover:bg-secondaryLight active:bg-secondaryDark active:scale-90 ">
+            <p>สั่งซื้ออาหาร</p>
+          </div>
         </Link>
       )}
       {!authUser && isOpen && <UserModal setIsOpen={setIsOpen} />}

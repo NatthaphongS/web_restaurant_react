@@ -11,7 +11,7 @@ export default function OrderPage() {
   const { getMenu } = useMenu();
   useEffect(() => {
     getMenu(category)
-      .then((res) => setMenus(res.data.menus))
+      .then((res) => setMenus(res.data?.menus))
       .catch((err) => console.log(err));
   }, [category]);
   return (

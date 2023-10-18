@@ -5,7 +5,6 @@ import Button from "../Button/Button";
 export default function UserDropDown() {
   const { authUser, logout } = useAuth();
   const { isOpen, setIsOpen, dropDownEl } = useDropdown();
-  console.log(authUser);
   return (
     <div className="relative h-full" ref={dropDownEl}>
       <div

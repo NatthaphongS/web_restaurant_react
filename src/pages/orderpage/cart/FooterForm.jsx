@@ -1,11 +1,7 @@
 import useOrder from "../../../hook/use-order";
 
 export default function FooterForm() {
-  const { order, setOrder } = useOrder();
-  const totalPrice = order.reduce((acc, list) => {
-    acc = acc + list.price * list.amount;
-    return acc;
-  }, 0);
+  const { setOrder, totalPrice } = useOrder();
   return (
     <footer className="bg-primary w-full text-whitetext px-3 pb-3">
       <div className="flex justify-between px-4 py-2 w-full">

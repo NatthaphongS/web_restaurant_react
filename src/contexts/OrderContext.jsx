@@ -2,6 +2,7 @@ import { createContext, useEffect, useState } from "react";
 import useAuth from "../hook/use-auth";
 import validateCreateOrder from "../validator/order-validator";
 import axios from "../config/axios";
+import { toast } from "react-toastify";
 
 export const OrderContext = createContext();
 
@@ -9,10 +10,11 @@ const cartOrderFromLocalStorage =
   JSON.parse(localStorage.getItem("cartOrder")) || [];
 
 export default function OrderContextProvider({ children }) {
-  const [order, setOrder] = useState(cartOrderFromLocalStorage);
   const { authUser } = useAuth();
   const [address, setAddress] = useState(authUser.address || "");
   const [error, setError] = useState({});
+  const [order, setOrder] = useState(cartOrderFromLocalStorage);
+  const [payment, setPayment] = useState("");
 
   useEffect(() => {
     localStorage.setItem("cartOrder", JSON.stringify(order));
@@ -86,8 +88,12 @@ export default function OrderContextProvider({ children }) {
         return setError(validatorError);
       }
       const res = await axios.post("/order/create", input);
+      console.log(res);
+      toast.success(res.data.message);
+      const createdOrder = res.data.createdOrder[0];
+      setOrder([]);
     } catch (error) {
-      console.log(error);
+      toast.success(res.data.message);
     }
   };
 
@@ -104,6 +110,8 @@ export default function OrderContextProvider({ children }) {
         setAddress,
         error,
         setError,
+        payment,
+        setPayment,
       }}
     >
       {children}

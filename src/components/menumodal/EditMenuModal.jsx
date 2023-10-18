@@ -64,9 +64,9 @@ export default function EditMenuModal({
         // console.log("test2");
         res = await editMenu(menuDetail.id, input);
       }
-      console.log("editcomplete");
+
       const editedMenu = res.data.editMenu;
-      console.log(editedMenu);
+
       const indexEdit = allMenu.findIndex((el) => el.id == editedMenu.id);
       allMenu.splice(indexEdit, 1, editedMenu);
       setAllMenu([...allMenu]);

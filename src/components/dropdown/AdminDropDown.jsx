@@ -5,7 +5,6 @@ import Button from "../Button/Button";
 export default function AdminDropDown() {
   const { authUser, logout } = useAuth();
   const { isOpen, setIsOpen, dropDownEl } = useDropdown();
-  console.log(authUser);
   return (
     <div className="relative" ref={dropDownEl}>
       <div

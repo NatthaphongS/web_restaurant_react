@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import OrderHeader from "./order/orderHeader";
+import OrderHeader from "./order/OrderHeader";
 import OrderCard from "./order/OrderCard";
 import useMenu from "../../hook/use-menu";
 import "./OrderPage.css";
-import OrderForm from "./cart/OrderForm";
+import { Outlet } from "react-router-dom";
 
 export default function OrderPage() {
   const [category, setCategory] = useState("MAIN");
@@ -14,6 +14,7 @@ export default function OrderPage() {
       .then((res) => setMenus(res.data?.menus))
       .catch((err) => console.log(err));
   }, [category]);
+
   return (
     <div style={{ height: "calc(100vh - 60px)" }} className="flex">
       <div className="h-full flex-[9] overflow-y-scroll overflow-x-hidden orderscroll">
@@ -25,7 +26,7 @@ export default function OrderPage() {
         </div>
       </div>
       <div className="h-full flex-[3] border-l-4 border-primary">
-        <OrderForm />
+        <Outlet />
       </div>
     </div>
   );

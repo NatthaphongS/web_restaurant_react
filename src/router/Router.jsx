@@ -17,6 +17,8 @@ import OrderForm from "../pages/orderpage/cart/OrderForm";
 import PaymentForm from "../pages/orderpage/payment/PaymentForm";
 import TrackOrder from "../pages/orderpage/trackorder/TrackOrder";
 import RedirectIfOrdering from "./RedirectIfOrdering";
+import OrderManage from "../adminpages/manage-orders/ordermanage/OrderManage";
+import ManageContextProvider from "../contexts/ManageContext";
 
 const router = createBrowserRouter([
   {
@@ -78,7 +80,7 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/admin/",
+    path: "admin",
     element: (
       <RedirectIfNotAdmin>
         <Layout />
@@ -86,7 +88,15 @@ const router = createBrowserRouter([
     ),
     children: [
       { path: "", element: <SummaryPage /> },
-      { path: "orders", element: <ManageOrderPage /> },
+      {
+        path: "orders",
+        element: (
+          <ManageContextProvider>
+            <ManageOrderPage />
+          </ManageContextProvider>
+        ),
+        children: [{ path: "manageOrder/:orderId", element: <OrderManage /> }],
+      },
       {
         path: "menus",
         element: (

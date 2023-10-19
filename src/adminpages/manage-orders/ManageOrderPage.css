@@ -1,0 +1,15 @@
+.manageorderscroll::-webkit-scrollbar-track
+{
+	display: none;
+}
+
+.manageorderscroll::-webkit-scrollbar
+{
+	display: none;
+	
+}
+
+.manageorderscroll::-webkit-scrollbar-thumb
+{
+	display: none;
+}

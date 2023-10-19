@@ -3,6 +3,7 @@ import useAuth from "../hook/use-auth";
 import validateCreateOrder from "../validator/order-validator";
 import axios from "../config/axios";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 export const OrderContext = createContext();
 
@@ -10,15 +11,30 @@ const cartOrderFromLocalStorage =
   JSON.parse(localStorage.getItem("cartOrder")) || [];
 
 export default function OrderContextProvider({ children }) {
-  const { authUser } = useAuth();
+  const { authUser, initialLoading, setInitialLoading } = useAuth();
   const [address, setAddress] = useState(authUser.address || "");
   const [error, setError] = useState({});
   const [order, setOrder] = useState(cartOrderFromLocalStorage);
-  const [payment, setPayment] = useState("");
+  const [payment, setPayment] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+  const [ordering, setOrdering] = useState();
+  const navigate = useNavigate();
 
   useEffect(() => {
     localStorage.setItem("cartOrder", JSON.stringify(order));
   }, [order]);
+
+  useEffect(() => {
+    axios
+      .get(`/order/getOrdering/${authUser.id}`)
+      .then((res) => {
+        if (res?.data) {
+          setOrdering(res.data);
+        }
+      })
+      .catch((err) => console.log(err));
+  }, []);
+  console.log(ordering);
 
   //menuDetail ={id:1,menuImage:dsajdkl,menuName:dasjkhd,price:50}
 
@@ -79,6 +95,7 @@ export default function OrderContextProvider({ children }) {
         deliveryAddress: address,
         summaryPrice: totalPrice,
         userId: authUser.id,
+        paymentImage: payment,
         orderDetail,
       };
       console.log(input);
@@ -87,13 +104,29 @@ export default function OrderContextProvider({ children }) {
       if (validatorError) {
         return setError(validatorError);
       }
-      const res = await axios.post("/order/create", input);
-      console.log(res);
-      toast.success(res.data.message);
-      const createdOrder = res.data.createdOrder[0];
-      setOrder([]);
+      input.orderDetail = JSON.stringify(input.orderDetail);
+      const formData = new FormData();
+      for (let key in input) {
+        if (input[key]) {
+          formData.append(`${key}`, input[key]);
+        }
+      }
+      setIsLoading(true);
+      await axios.post("/order/create", formData);
+      const { data } = await axios.get(`/order/getOrdering/${authUser.id}`);
+      setOrdering(data);
+      // setPayment();
+      // setOrder([]);
+      navigate("/order/trackorder");
+      setIsLoading(false);
+
+      // console.log(res);
+      // toast.success(res.data.message);
+      // const createdOrder = res.data.createdOrder[0];
+      // setOrder([]);
     } catch (error) {
-      toast.success(res.data.message);
+      console.log(error);
+      toast.success(error.response.data.message);
     }
   };
 
@@ -112,6 +145,10 @@ export default function OrderContextProvider({ children }) {
         setError,
         payment,
         setPayment,
+        isLoading,
+        setIsLoading,
+        ordering,
+        setOrdering,
       }}
     >
       {children}

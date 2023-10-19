@@ -3,7 +3,8 @@ import Joi from "joi";
 const createOrderSchema = Joi.object({
   deliveryAddress: Joi.string().trim().required(),
   summaryPrice: Joi.number().required(),
-  userId: Joi.number().required(),
+  userId: Joi.string().trim().required(),
+  paymentImage: Joi.any().required(),
   orderDetail: Joi.array()
     .min(1)
     .items(
@@ -24,7 +25,7 @@ const validateCreateOrder = (input) => {
       acc[path[0]] = message;
       return acc;
     }, {});
-    return result; //{firstName:"error message",lastName.....}
+    return result; //{deliveryAddress:"error message",orderDetail.....,paymentImage....}
   }
 };
 

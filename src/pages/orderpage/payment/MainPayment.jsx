@@ -3,7 +3,7 @@ import useOrder from "../../../hook/use-order";
 
 export default function MainPayment() {
   const fileEl = useRef(null);
-  const { error, payment, setPayment } = useOrder();
+  const { error, payment, setPayment, setError } = useOrder();
   return (
     <div className="h-full p-2 overflow-y-scroll font-semibold">
       <div className="flex flex-col items-center">
@@ -46,11 +46,16 @@ export default function MainPayment() {
         ref={fileEl}
         onChange={(e) => {
           if (e.target.files[0]) {
+            if (error.paymentImage) {
+              const newError = { ...error };
+              delete newError.paymentImage;
+              setError(newError);
+            }
             setPayment(e.target.files[0]);
           }
         }}
       />
-      {true && (
+      {error.paymentImage && (
         <>
           <p className="mx-auto w-fit text-red">กรุณาอัพโหลดสลิป</p>
           <p className="mx-auto w-fit text-red">ก่อนยืนยันการชำระเงิน</p>

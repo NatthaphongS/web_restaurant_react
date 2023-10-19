@@ -15,6 +15,8 @@ import RedirectIfMember from "./RedirectIfMember";
 import OrderContextProvider from "../contexts/OrderContext";
 import OrderForm from "../pages/orderpage/cart/OrderForm";
 import PaymentForm from "../pages/orderpage/payment/PaymentForm";
+import TrackOrder from "../pages/orderpage/trackorder/TrackOrder";
+import RedirectIfOrdering from "./RedirectIfOrdering";
 
 const router = createBrowserRouter([
   {
@@ -54,8 +56,23 @@ const router = createBrowserRouter([
           </RedirectIfNotMember>
         ),
         children: [
-          { path: "", element: <OrderForm /> },
-          { path: "payment", element: <PaymentForm /> },
+          {
+            path: "",
+            element: (
+              <RedirectIfOrdering>
+                <OrderForm />
+              </RedirectIfOrdering>
+            ),
+          },
+          {
+            path: "payment",
+            element: (
+              <RedirectIfOrdering>
+                <PaymentForm />
+              </RedirectIfOrdering>
+            ),
+          },
+          { path: "trackorder", element: <TrackOrder /> },
         ],
       },
     ],

@@ -2,13 +2,13 @@ import { useNavigate } from "react-router-dom";
 import useOrder from "../../../hook/use-order";
 
 export default function FooterPayment() {
-  const { setOrder, totalPrice, createOrder } = useOrder();
+  const { payment, totalPrice, createOrder } = useOrder();
   const navigate = useNavigate();
   const handleClick = () => {
     return navigate("/order");
   };
   const handleCreateOrder = () => {
-    // createOrder()
+    createOrder();
   };
   return (
     <footer className="bg-primary w-full text-whitetext px-3 pb-3">
@@ -23,12 +23,14 @@ export default function FooterPayment() {
         >
           ยืนยันการชำระเงิน
         </button>
-        <div
-          onClick={handleClick}
-          className="flex justify-center items-center flex-[3] max-w-[50px] rounded-xl cursor-pointer w-fit p-1 bg-primary text-whitetext hover:bg-primaryLight  active:bg-primaryDark active:scale-90 "
-        >
-          <img src="/icons/GoBack.png" className="w-10" />
-        </div>
+        {!payment && (
+          <div
+            onClick={handleClick}
+            className="flex justify-center items-center flex-[3] max-w-[50px] rounded-xl cursor-pointer w-fit p-1 bg-primary text-whitetext hover:bg-primaryLight  active:bg-primaryDark active:scale-90 "
+          >
+            <img src="/icons/GoBack.png" className="w-10" />
+          </div>
+        )}
       </div>
     </footer>
   );

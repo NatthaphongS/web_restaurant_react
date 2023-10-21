@@ -39,7 +39,6 @@ export default function ManageContextProvider({ children }) {
         status: res.data.status,
       };
       setTargetOrder(newTargetOrder);
-
       setIsLoading(false);
     } catch (error) {
       console.log(error);

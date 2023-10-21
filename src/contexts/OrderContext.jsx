@@ -11,12 +11,13 @@ const cartOrderFromLocalStorage =
   JSON.parse(localStorage.getItem("cartOrder")) || [];
 
 export default function OrderContextProvider({ children }) {
-  const { authUser, initialLoading, setInitialLoading } = useAuth();
+  const { authUser } = useAuth();
   const [address, setAddress] = useState(authUser.address || "");
   const [error, setError] = useState({});
   const [order, setOrder] = useState(cartOrderFromLocalStorage);
   const [payment, setPayment] = useState();
   const [isLoading, setIsLoading] = useState(false);
+  const [trackOrder, setTrackOrder] = useState();
   const [ordering, setOrdering] = useState();
   const navigate = useNavigate();
 
@@ -26,17 +27,11 @@ export default function OrderContextProvider({ children }) {
 
   useEffect(() => {
     axios
-      .get(`/order/getOrdering/${authUser.id}`)
-      .then((res) => {
-        if (res?.data) {
-          setOrdering(res.data);
-        }
-      })
+      .get(`/order/checkOrdering/${authUser.id}`)
+      .then((res) => setOrdering(res.data))
       .catch((err) => console.log(err));
   }, []);
-  // console.log(ordering);
-
-  //menuDetail ={id:1,menuImage:dsajdkl,menuName:dasjkhd,price:50}
+  console.log(ordering);
 
   const addToCart = (menuDetail) => {
     const menuExistIndex = order.findIndex((el) => el.id === menuDetail.id);
@@ -98,9 +93,9 @@ export default function OrderContextProvider({ children }) {
         paymentImage: payment,
         orderDetail,
       };
-      console.log(input);
+      // console.log(input);
       const validatorError = validateCreateOrder(input);
-      console.log(validatorError);
+      // console.log(validatorError);
       if (validatorError) {
         return setError(validatorError);
       }
@@ -112,21 +107,15 @@ export default function OrderContextProvider({ children }) {
         }
       }
       setIsLoading(true);
-      await axios.post("/order/create", formData);
-      const { data } = await axios.get(`/order/getOrdering/${authUser.id}`);
-      setOrdering(data);
-      // setPayment();
-      // setOrder([]);
-      navigate("/order/trackorder");
+      const res = await axios.post("/order/create", formData);
+      setTrackOrder(res.data.createdOrder);
+      setPayment();
+      setOrder([]);
+      navigate(`/order/trackorder/${res.data.createdOrder.id}`);
       setIsLoading(false);
-
-      // console.log(res);
-      // toast.success(res.data.message);
-      // const createdOrder = res.data.createdOrder[0];
-      // setOrder([]);
     } catch (error) {
       console.log(error);
-      toast.success(error.response.data.message);
+      toast.success(error);
     }
   };
 
@@ -147,6 +136,8 @@ export default function OrderContextProvider({ children }) {
         setPayment,
         isLoading,
         setIsLoading,
+        trackOrder,
+        setTrackOrder,
         ordering,
         setOrdering,
       }}

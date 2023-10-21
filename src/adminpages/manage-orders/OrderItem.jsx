@@ -39,7 +39,7 @@ export default function OrderItem({
 
   return (
     <div
-      className="flex bg-primary p-2 rounded-full cursor-pointer truncate"
+      className="flex flex-shrink-0 bg-primary p-2 rounded-full cursor-pointer truncate"
       onClick={() => navigate(`/admin/orders/manageOrder/${orderDetail.id}`)}
     >
       <p className="flex-[5] flex justify-start font-semibold text-lg px-3 ">

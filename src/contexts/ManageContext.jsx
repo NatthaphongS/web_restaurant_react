@@ -1,20 +1,14 @@
 import { createContext, useEffect, useState } from "react";
 import axios from "../config/axios";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
 
 export const ManageContext = createContext();
 
 export default function ManageContextProvider({ children }) {
   const [allOrders, setAllOrders] = useState([]);
+  const [searchOrders, setSearchOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [orderId, setOrderId] = useState("");
-  const navigate = useNavigate();
-
-  const handleNavigate = (id) => {
-    setOrderId(id);
-    return navigate(`/admin/orders/manageOrder/${id}`);
-  };
+  const [targetOrder, setTargetOrder] = useState({});
+  const [searchId, setSearchId] = useState("");
 
   useEffect(() => {
     axios
@@ -25,8 +19,48 @@ export default function ManageContextProvider({ children }) {
         }
       })
       .catch((err) => console.log(err));
-  }, []);
-  console.log(allOrders);
+  }, [targetOrder]);
+  // console.log(allOrders);
+
+  const handleSearch = (id) => {
+    setSearchOrders(
+      allOrders.filter((el) => {
+        return el.id.startsWith(id);
+      })
+    );
+  };
+
+  const updateOrder = async (id, status) => {
+    try {
+      setIsLoading(true);
+      const res = await axios.patch(`/order/update/${id}`, { status });
+      const newTargetOrder = {
+        ...targetOrder,
+        status: res.data.status,
+      };
+      setTargetOrder(newTargetOrder);
+
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const cancleOrder = async (comment, id) => {
+    try {
+      setIsLoading(true);
+      const res = await axios.patch(`/order/cancle/${id}`, { comment });
+      const newTargetOrder = {
+        ...targetOrder,
+        status: res.data.status,
+        comment: res.data.comment,
+      };
+      setTargetOrder(newTargetOrder);
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <ManageContext.Provider
@@ -35,8 +69,14 @@ export default function ManageContextProvider({ children }) {
         setIsLoading,
         allOrders,
         setAllOrders,
-        handleNavigate,
-        orderId,
+        targetOrder,
+        setTargetOrder,
+        cancleOrder,
+        updateOrder,
+        searchId,
+        setSearchId,
+        handleSearch,
+        searchOrders,
       }}
     >
       {children}

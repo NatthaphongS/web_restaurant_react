@@ -6,7 +6,7 @@ const delay = 1000;
 
 export default function OrderItem({
   orderDetail,
-  color,
+  styleColor,
   status,
   isTimer = true,
 }) {
@@ -40,7 +40,7 @@ export default function OrderItem({
   return (
     <div
       className="flex bg-primary p-2 rounded-full cursor-pointer truncate"
-      onClick={() => handleNavigate(orderDetail.id)}
+      onClick={() => navigate(`/admin/orders/manageOrder/${orderDetail.id}`)}
     >
       <p className="flex-[5] flex justify-start font-semibold text-lg px-3 ">
         {orderDetail.id}
@@ -55,7 +55,8 @@ export default function OrderItem({
       )}
 
       <p
-        className={`flex-[2] flex justify-center items-center font-semibold text-lg rounded-full bg-${color}`}
+        style={{ backgroundColor: styleColor }}
+        className={`flex-[2] flex justify-center items-center font-semibold text-lg rounded-full `}
       >
         {status}
       </p>

@@ -3,10 +3,27 @@ import { useParams } from "react-router-dom";
 import axios from "../../../config/axios";
 import useManage from "../../../hook/use-manage";
 import Loading from "../../../components/Loading/Loading";
+import CancleOrderDropDown from "../../../components/dropdown/CancleOrderDropDown";
 
 export default function OrderManage() {
-  const { orderId } = useManage();
-  const [targetOrder, setTargetOrder] = useState({});
+  const { orderId } = useParams();
+  const { isLoading, setIsLoading, targetOrder, setTargetOrder, updateOrder } =
+    useManage();
+
+  const handleClick = async () => {
+    let status;
+    if (targetOrder.status === "WAITINGPREVIEW") {
+      status = "COOKING";
+    }
+    if (targetOrder.status === "COOKING") {
+      status = "WAITINGDELIVERY";
+    }
+    if (targetOrder.status === "WAITINGDELIVERY") {
+      status = "COMPLETE";
+    }
+    await updateOrder(targetOrder.id, status);
+  };
+
   useEffect(() => {
     axios
       .get(`/order/orderTarget/${orderId}`)
@@ -18,15 +35,34 @@ export default function OrderManage() {
   }, [orderId]);
   return (
     <div className="h-full flex flex-col justify-between">
+      {isLoading && <Loading />}
       <div className="bg-primary text-whitetext flex items-center justify-center py-2">
         <h5 className="font-semibold">รายละเอียดคำสั่งชื้อ</h5>
       </div>
       <div className="overflow-y-scroll h-full">
-        <div className="flex flex-col items-start text-ellipsis px-2">
+        <div className="flex flex-col items-start text-ellipsis px-2 pt-2">
           <p className="text-ellipsis line-clamp-1 font-semibold">
             หมายเลขคำสั่งชื้อ :
           </p>
           <p className="text-ellipsis line-clamp-1">{orderId}</p>
+          <p className="text-ellipsis line-clamp-1">
+            <span className="font-semibold">สถานะ</span>:{" "}
+            {targetOrder?.status === "WAITINGPREVIEW"
+              ? "รอตรวจสอบ"
+              : targetOrder?.status === "COOKING"
+              ? "กำลังทำอาหาร"
+              : targetOrder?.status === "WAITINGDELIVERY"
+              ? "กำลังจัดส่ง"
+              : targetOrder?.status === "COMPLETE"
+              ? "สำเร็จ"
+              : "ยกเลิก"}
+          </p>
+          {targetOrder?.comment && (
+            <p className="text-ellipsis line-clamp-1">
+              <span className="font-semibold">หมายเหตุ</span> :{" "}
+              {targetOrder?.comment}
+            </p>
+          )}
           <p className="text-ellipsis line-clamp-1">
             <span className="font-semibold">ชื่อ-สกุล</span>:{" "}
             {targetOrder?.user?.firstName} {targetOrder?.user?.lastName}
@@ -52,21 +88,34 @@ export default function OrderManage() {
               </div>
             ))}
           </div>
-          <div className="flex justify-between px-4 py-2 w-full">
+          <div className="flex justify-between px-1 py-2 w-full font-bold text-2xl">
             <p>ราคารวม</p>
             <p>{targetOrder?.summaryPrice} บาท</p>
           </div>
+          <div className="flex  flex-col justify-between px-1 py-2 w-full font-bold text-xl">
+            <p>หลักฐานการชำระเงิน</p>
+            <img src={targetOrder?.paymentImage} className="rounded-xl" />
+          </div>
         </div>
       </div>
-      <footer className="bg-primary w-full text-whitetext px-3 pb-3">
-        <div className="flex justify-evenly items-center  w-full ">
-          {targetOrder?.status === "WAITINGDELIVERY" && (
-            <button className="flex justify-center items-center rounded-xl cursor-pointer px-3 w-fit py-2 font-semibold text-lg bg-secondary text-primary hover:bg-secondaryDark active:bg-secondaryDark active:scale-90 ">
-              ยืนยันการจัดส่ง
+      {targetOrder.status !== "CANCLE" && targetOrder.status !== "COMPLETE" && (
+        <footer className="bg-primary w-full text-whitetext  px-3 py-3">
+          <div className="flex justify-between items-center gap-5 w-full pr-2">
+            <button
+              onClick={handleClick}
+              className="flex flex-[9] justify-center items-center rounded-xl cursor-pointer px-3 w-fit py-2 font-semibold text-lg bg-secondary text-primary hover:bg-secondaryDark active:bg-secondaryDark active:scale-90 "
+            >
+              {targetOrder.status === "WAITINGPREVIEW"
+                ? "ยืนยันการตรวจสอบ"
+                : targetOrder.status === "COOKING"
+                ? "ทำอาหารเสร็จแล้ว"
+                : "จัดส่งเรียบร้อย"}
             </button>
-          )}
-        </div>
-      </footer>
+
+            <CancleOrderDropDown />
+          </div>
+        </footer>
+      )}
     </div>
   );
 }

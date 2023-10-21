@@ -5,7 +5,7 @@ import useOrder from "../../../hook/use-order";
 export default function TrackOrder() {
   const { ordering } = useOrder();
   const { authUser } = useAuth();
-  console.log(ordering);
+  // console.log(ordering);
   return (
     <div className="h-full flex flex-col justify-between">
       <div className="bg-primary text-whitetext flex items-center justify-center py-2">
@@ -13,7 +13,17 @@ export default function TrackOrder() {
       </div>
       <div className="overflow-y-scroll h-full">
         <div className="flex items-center justify-center h-[80px]">
-          <h6 className="font-semibold">กำลังตรวจสอบ...</h6>
+          <h6 className="font-semibold">
+            {ordering?.status === "WAITINGPREVIEW"
+              ? "กำลังตรวจสอบ..."
+              : ordering?.status === "COOKING"
+              ? "กำลังทำอาหาร..."
+              : ordering?.status === "WAITINGDELIVERY"
+              ? "กำลังจัดส่ง..."
+              : ordering?.status === "COMPLETE"
+              ? "สำเร็จ"
+              : "ยกเลิก"}
+          </h6>
         </div>
         <div className="flex flex-col items-start text-ellipsis px-2">
           <p className="text-ellipsis line-clamp-1 font-semibold">

@@ -1,66 +1,76 @@
+import { useEffect, useState } from "react";
 import useManage from "../../hook/use-manage";
 import OrderItem from "./OrderItem";
 
 export default function OrderList() {
-  const { allOrders } = useManage();
+  const { allOrders, searchOrders, searchId } = useManage();
+  const [showOrders, setShowOrders] = useState([]);
+  useEffect(() => {
+    if (searchId) {
+      setShowOrders(searchOrders);
+    } else {
+      setShowOrders(allOrders);
+    }
+  }, [searchId, allOrders]);
+
   return (
     <>
-      {allOrders.map((el) => {
+      {showOrders.map((el) => {
         if (el.status === "WAITINGPREVIEW") {
           return (
             <OrderItem
               key={el.id}
               orderDetail={el}
-              color="myyellow"
+              styleColor="#FFC633"
               status="รอตรวจสอบ"
             />
           );
         }
       })}
-      {allOrders.map((el) => {
+      {showOrders.map((el) => {
         if (el.status === "COOKING") {
           return (
             <OrderItem
               key={el.id}
               orderDetail={el}
-              color="secondary"
+              styleColor="#FF5A36"
               status="กำลังทำอาหาร"
             />
           );
         }
       })}
-      {allOrders.map((el) => {
+      {showOrders.map((el) => {
         if (el.status === "WAITINGDELIVERY") {
           return (
             <OrderItem
               key={el.id}
               orderDetail={el}
-              color="myblue"
+              styleColor="#0EA5E9"
               status="กำลังจัดส่ง"
             />
           );
         }
       })}
-      {allOrders.map((el) => {
+      {showOrders.map((el) => {
         if (el.status === "COMPLETE") {
           return (
             <OrderItem
               key={el.id}
               orderDetail={el}
-              color="mygreen"
+              styleColor="#94CE61"
               status="สำเร็จ"
               isTimer={false}
             />
           );
         }
       })}
-      {allOrders.map((el) => {
+      {showOrders.map((el) => {
         if (el.status === "CANCLE") {
           return (
             <OrderItem
               key={el.id}
               orderDetail={el}
-              color="primaryLight"
+              styleColor="#3B3B3B"
               status="ยกเลิก"
               isTimer={false}
             />

@@ -1,12 +1,16 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useResolvedPath } from "react-router-dom";
 import "./ManageOrderPage.css";
-import OrderItem from "./OrderItem";
-import useManage from "../../hook/use-manage";
+
 import OrderList from "./OrderList";
+import useManage from "../../hook/use-manage";
 
 export default function ManageOrderPage() {
-  const { allOrders } = useManage();
-  console.log(allOrders);
+  const { pathname } = useResolvedPath();
+  const { searchId, setSearchId, handleSearch } = useManage();
+  const handleChangeInput = (id) => {
+    setSearchId(id);
+  };
+
   return (
     <div
       style={{ height: "calc(100vh - 60px)" }}
@@ -15,9 +19,19 @@ export default function ManageOrderPage() {
       <div className="flex-[7] bg-primaryLight p-3 text-whitetext">
         <div className="h-full  ">
           <div className="flex bg-primary p-2">
-            <p className="flex-[5] flex justify-start font-semibold text-2xl px-3">
-              หมายเลขคำสั่งชื้อ
-            </p>
+            <div className="flex-[5] flex justify-start gap-2 font-semibold text-2xl px-3">
+              <p>หมายเลขคำสั่งชื้อ</p>
+              <input
+                type="text"
+                onChange={(e) => {
+                  handleChangeInput(e.target.value);
+                  handleSearch(e.target.value);
+                }}
+                placeholder="ค้นหาหมายเลขคำสั่งชื่อ"
+                value={searchId}
+                className="text-primary text-sm rounded-full px-3 w-[200px]"
+              />
+            </div>
             <p className="flex-[2] flex justify-center font-semibold text-2xl">
               ระยะเวลา
             </p>
@@ -31,6 +45,13 @@ export default function ManageOrderPage() {
         </div>
       </div>
       <div className="h-full flex-[3] border-l-4 border-primary">
+        {pathname === "/admin/orders" && (
+          <div className="w-full h-full flex items-center justify-center px-3">
+            <h6 className="text-center">
+              โปรดเลือกคำสั่งชื้อที่ต้องการตรวจสอบ
+            </h6>
+          </div>
+        )}
         <Outlet />
       </div>
     </div>

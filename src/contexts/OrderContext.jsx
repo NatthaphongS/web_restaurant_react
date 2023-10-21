@@ -34,7 +34,7 @@ export default function OrderContextProvider({ children }) {
       })
       .catch((err) => console.log(err));
   }, []);
-  console.log(ordering);
+  // console.log(ordering);
 
   //menuDetail ={id:1,menuImage:dsajdkl,menuName:dasjkhd,price:50}
 

@@ -10,12 +10,12 @@ export default {
       secondary: "#FF5A36",
       secondaryLight: "#FF7B5F",
       secondaryDark: "#D94626",
+      myblue: "#0EA5E9",
       myyellow: "#FFC633",
       mybackground: "#FFFBF2",
       darktext: "#171717",
       whitetext: "#FFFBF2",
       mygreen: "#94CE61",
-      myblue: "#0EA5E9",
       red: "#ff3333",
     },
     fontWeight: {

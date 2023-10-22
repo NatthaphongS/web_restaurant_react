@@ -6,8 +6,9 @@ import { useEffect } from "react";
 import axios from "../../../config/axios";
 
 export default function TrackOrder() {
-  const { trackOrder, setTrackOrder } = useOrder();
+  const { trackOrder, setTrackOrder, handleConfirmDelivery } = useOrder();
   const { orderId } = useParams();
+  console.log(trackOrder?.orderDetails);
 
   useEffect(() => {
     axios
@@ -78,7 +79,10 @@ export default function TrackOrder() {
         </div>
         <div className="flex justify-evenly items-center  w-full ">
           {trackOrder?.status === "WAITINGDELIVERY" && (
-            <button className="flex justify-center items-center rounded-xl cursor-pointer px-3 w-fit py-2 font-semibold text-lg bg-secondary text-primary hover:bg-secondaryDark active:bg-secondaryDark active:scale-90 ">
+            <button
+              onClick={() => handleConfirmDelivery(trackOrder.id)}
+              className="flex justify-center items-center rounded-xl cursor-pointer px-3 w-fit py-2 font-semibold text-lg bg-secondary text-primary hover:bg-secondaryDark active:bg-secondaryDark active:scale-90 "
+            >
               ยืนยันการจัดส่ง
             </button>
           )}

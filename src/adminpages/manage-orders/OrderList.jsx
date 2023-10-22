@@ -3,7 +3,7 @@ import useManage from "../../hook/use-manage";
 import OrderItem from "./OrderItem";
 
 export default function OrderList() {
-  const { allOrders, searchOrders, searchId } = useManage();
+  const { allOrders, searchOrders, searchId, targetOrder } = useManage();
   const [showOrders, setShowOrders] = useState([]);
   useEffect(() => {
     if (searchId) {

@@ -44,6 +44,7 @@ export default function AddMenuModal({
           formData.append(`${key}`, input[key]);
         }
       }
+      console.log(formData);
       const res = await createMenu(formData);
       const newMenu = res.data.newMenu;
       setAllMenu([...allMenu, newMenu]);

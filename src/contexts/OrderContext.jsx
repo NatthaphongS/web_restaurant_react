@@ -31,7 +31,6 @@ export default function OrderContextProvider({ children }) {
       .then((res) => setOrdering(res.data))
       .catch((err) => console.log(err));
   }, []);
-  console.log(ordering);
 
   const addToCart = (menuDetail) => {
     const menuExistIndex = order.findIndex((el) => el.id === menuDetail.id);
@@ -76,6 +75,24 @@ export default function OrderContextProvider({ children }) {
     acc = acc + list.price * list.amount;
     return acc;
   }, 0);
+
+  const handleConfirmDelivery = async (id) => {
+    try {
+      setIsLoading(true);
+      const res = await axios.patch(`/order/confirmDelivery/${id}`, {
+        status: "COMPLETE",
+      });
+      const newTrackOrder = {
+        ...trackOrder,
+        status: res.data.status,
+      };
+      setTrackOrder(newTrackOrder);
+      setOrdering();
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const createOrder = async () => {
     try {
@@ -140,6 +157,7 @@ export default function OrderContextProvider({ children }) {
         setTrackOrder,
         ordering,
         setOrdering,
+        handleConfirmDelivery,
       }}
     >
       {children}

@@ -3,9 +3,10 @@ import OrderHeader from "./order/OrderHeader";
 import OrderCard from "./order/OrderCard";
 import useMenu from "../../hook/use-menu";
 import "./OrderPage.css";
-import { Outlet, useResolvedPath } from "react-router-dom";
+import { Link, Outlet, useResolvedPath } from "react-router-dom";
 import useOrder from "../../hook/use-order";
 import Loading from "../../components/Loading/Loading";
+import Button from "../../components/Button/Button";
 
 export default function OrderPage() {
   const [category, setCategory] = useState("MAIN");
@@ -27,9 +28,15 @@ export default function OrderPage() {
           <div className="absolute bg-primary bg-opacity-70 z-10 w-full h-full">
             <div className="flex flex-col justify-center items-center w-full h-full px-10">
               <h4 className="text-whitetext text-center">
-                {ordering
-                  ? "ไม่สามารถทำรายการได้ระหว่างการสั่งชื้อ"
-                  : "ไม่สามารถแก้ไขรายการอาหารได้ ระหว่างการชำระเงิน"}
+                {ordering ? (
+                  "ไม่สามารถทำรายการได้ระหว่างการสั่งชื้อ"
+                ) : pathname === "/order/payment" ? (
+                  "ไม่สามารถแก้ไขรายการอาหารได้ ระหว่างการชำระเงิน"
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center">
+                    <img src="/thankImage.png" className="w-[100%]" />
+                  </div>
+                )}
               </h4>
             </div>
           </div>

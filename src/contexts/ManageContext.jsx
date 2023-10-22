@@ -11,14 +11,21 @@ export default function ManageContextProvider({ children }) {
   const [searchId, setSearchId] = useState("");
 
   useEffect(() => {
-    axios
-      .get(`/order/allOrders`)
-      .then((res) => {
-        if (res?.data) {
-          setAllOrders(res.data);
-        }
-      })
-      .catch((err) => console.log(err));
+    const getAllOrder = () => {
+      axios
+        .get(`/order/allOrders`)
+        .then((res) => {
+          if (res?.data) {
+            setAllOrders(res.data);
+          }
+        })
+        .catch((err) => console.log(err));
+    };
+    getAllOrder();
+    const intervalId = setInterval(getAllOrder, 30000);
+    return () => {
+      clearInterval(intervalId);
+    };
   }, [targetOrder]);
   // console.log(allOrders);
 

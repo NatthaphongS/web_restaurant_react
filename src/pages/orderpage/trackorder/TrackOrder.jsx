@@ -8,17 +8,24 @@ import axios from "../../../config/axios";
 export default function TrackOrder() {
   const { trackOrder, setTrackOrder, handleConfirmDelivery } = useOrder();
   const { orderId } = useParams();
-  console.log(trackOrder?.orderDetails);
+  // console.log(trackOrder?.orderDetails);
 
   useEffect(() => {
-    axios
-      .get(`/order/getTrackingOrder/${orderId}`)
-      .then((res) => {
-        if (res?.data) {
-          setTrackOrder(res.data);
-        }
-      })
-      .catch((err) => console.log(err));
+    const getTrackOrder = () => {
+      axios
+        .get(`/order/getTrackingOrder/${orderId}`)
+        .then((res) => {
+          if (res?.data) {
+            setTrackOrder(res.data);
+          }
+        })
+        .catch((err) => console.log(err));
+    };
+    getTrackOrder();
+    const intervalId = setInterval(getTrackOrder, 30000);
+    return () => {
+      clearInterval(intervalId);
+    };
   }, []);
 
   return (

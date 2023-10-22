@@ -52,9 +52,11 @@ export default function TrackOrder() {
           {trackOrder?.comment && (
             <>
               <p className="text-ellipsis line-clamp-1 font-semibold">
-                หมายเลขคำสั่งชื้อ :
+                หมายเหตุ :
               </p>
-              <p className="text-ellipsis line-clamp-1">{trackOrder?.id}</p>
+              <p className="text-ellipsis line-clamp-1">
+                {trackOrder?.comment}
+              </p>
             </>
           )}
           <p className="text-ellipsis line-clamp-1 font-semibold">
@@ -72,9 +74,7 @@ export default function TrackOrder() {
           <p className="text-ellipsis line-clamp-1 font-semibold">
             ที่อยู่จัดส่ง :
           </p>
-          <p className="text-ellipsis line-clamp-1">
-            {trackOrder?.deliveryAddress}
-          </p>
+          <p className="">{trackOrder?.deliveryAddress}</p>
           <p className="font-semibold">รายการ :</p>
           <div className="w-full px-2">
             {trackOrder?.orderDetails.map((el) => (

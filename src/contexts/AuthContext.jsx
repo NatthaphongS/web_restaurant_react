@@ -8,6 +8,7 @@ import {
   removeAccessToken,
 } from "../utils/local-storage";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 export const AuthContext = createContext();
 
@@ -28,16 +29,36 @@ export default function AuthContextProvider({ children }) {
   }, []);
 
   const login = async (credentail) => {
+    try {
+      const res = await axios.post("/auth/login", credentail);
+      addAccessToken(res.data.accessToken);
+      setAuthUser(res.data.user);
+      toast.success(res.data.message);
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
     // console.log(credentail);
-    const res = await axios.post("/auth/login", credentail);
-    addAccessToken(res.data.accessToken);
-    setAuthUser(res.data.user);
   };
 
   const register = async (registerInputObject) => {
-    const res = await axios.post("/auth/register", registerInputObject);
-    addAccessToken(res.data.accessToken);
-    setAuthUser(res.data.user);
+    try {
+      const res = await axios.post("/auth/register", registerInputObject);
+      addAccessToken(res.data.accessToken);
+      setAuthUser(res.data.user);
+      toast.success(res.data.message);
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  };
+
+  const editUser = async (id, editDataOdject) => {
+    try {
+      const res = await axios.patch(`/auth/editUser/${id}`, editDataOdject);
+      setAuthUser(res.data.user);
+      toast.success(res.data.message);
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
   };
 
   const logout = () => {
@@ -47,7 +68,15 @@ export default function AuthContextProvider({ children }) {
 
   return (
     <AuthContext.Provider
-      value={{ login, register, logout, authUser, initialLoading }}
+      value={{
+        login,
+        register,
+        logout,
+        editUser,
+        authUser,
+        setAuthUser,
+        initialLoading,
+      }}
     >
       {children}
     </AuthContext.Provider>

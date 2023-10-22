@@ -4,6 +4,7 @@ import useAuth from "../../../hook/use-auth";
 import useOrder from "../../../hook/use-order";
 import { useEffect } from "react";
 import axios from "../../../config/axios";
+import WaveTextAnimation from "./WaveTextAnimation";
 
 export default function TrackOrder() {
   const { trackOrder, setTrackOrder, handleConfirmDelivery } = useOrder();
@@ -35,19 +36,27 @@ export default function TrackOrder() {
       </div>
       <div className="overflow-y-scroll h-full">
         <div className="flex items-center justify-center h-[80px]">
-          <h6 className="font-semibold">
-            {trackOrder?.status === "WAITINGPREVIEW"
-              ? "กำลังตรวจสอบ..."
-              : trackOrder?.status === "COOKING"
-              ? "กำลังทำอาหาร..."
-              : trackOrder?.status === "WAITINGDELIVERY"
-              ? "กำลังจัดส่ง..."
-              : trackOrder?.status === "COMPLETE"
-              ? "สำเร็จ"
-              : "ยกเลิก"}
-          </h6>
+          {trackOrder?.status === "WAITINGPREVIEW" ? (
+            <WaveTextAnimation mytext="กำลังตรวจสอบ..." />
+          ) : trackOrder?.status === "COOKING" ? (
+            <WaveTextAnimation mytext="กำลังทำอาหาร..." />
+          ) : trackOrder?.status === "WAITINGDELIVERY" ? (
+            <WaveTextAnimation mytext="กำลังจัดส่ง..." />
+          ) : trackOrder?.status === "COMPLETE" ? (
+            <h6 className="font-semibold text-2xl">สำเร็จ</h6>
+          ) : (
+            <h6 className="font-semibold text-2xl">ยกเลิก</h6>
+          )}
         </div>
         <div className="flex flex-col items-start text-ellipsis px-2">
+          {trackOrder?.comment && (
+            <>
+              <p className="text-ellipsis line-clamp-1 font-semibold">
+                หมายเลขคำสั่งชื้อ :
+              </p>
+              <p className="text-ellipsis line-clamp-1">{trackOrder?.id}</p>
+            </>
+          )}
           <p className="text-ellipsis line-clamp-1 font-semibold">
             หมายเลขคำสั่งชื้อ :
           </p>

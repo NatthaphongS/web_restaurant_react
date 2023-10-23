@@ -3,11 +3,19 @@ import useAuth from "../../hook/use-auth";
 import useDropdown from "../../hook/use-dropdown";
 import Button from "../Button/Button";
 import EditProfileModal from "../usermodal/EditProfileModal";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function UserDropDown() {
   const { authUser, logout } = useAuth();
   const { isOpen, setIsOpen, dropDownEl } = useDropdown();
   const [isEdit, setIsEdit] = useState(false);
+  const navigate = useNavigate();
+
+  const handleNavigate = () => {
+    navigate("/order/trackOrder");
+    setIsOpen(false);
+  };
+
   return (
     <div className="relative h-full" ref={dropDownEl}>
       <div
@@ -23,6 +31,12 @@ export default function UserDropDown() {
             <div className="w-full flex flex-col justify-center items-center gap-4">
               <div className="w-full flex flex-col items-start gap-2">
                 <p className="text-darktext text-xl font-semibold truncate">{`${authUser.firstName} ${authUser.lastName}`}</p>
+                <div
+                  onClick={handleNavigate}
+                  className="w-fit flex gap-1 items-center justify-end cursor-pointer border-primary border px-2 "
+                >
+                  <p className="text-primary text-sx">ประวัติการสั่งชื้อ</p>
+                </div>
                 <div
                   onClick={() => setIsEdit(true)}
                   className="w-fit flex gap-1 items-center justify-end cursor-pointer border-primary border px-2 "

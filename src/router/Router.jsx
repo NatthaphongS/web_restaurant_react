@@ -19,6 +19,7 @@ import TrackOrder from "../pages/orderpage/trackorder/TrackOrder";
 import RedirectIfOrdering from "./RedirectIfOrdering";
 import OrderManage from "../adminpages/manage-orders/ordermanage/OrderManage";
 import ManageContextProvider from "../contexts/ManageContext";
+import HistoryOrder from "../pages/orderpage/HistoryOrder";
 
 const router = createBrowserRouter([
   {
@@ -74,6 +75,7 @@ const router = createBrowserRouter([
               </RedirectIfOrdering>
             ),
           },
+          { path: "trackorder", element: <HistoryOrder /> },
           { path: "trackorder/:orderId", element: <TrackOrder /> },
         ],
       },

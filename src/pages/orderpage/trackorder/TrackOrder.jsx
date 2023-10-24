@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ContractDropDown from "../../../components/dropdown/ContactDropDown";
 import useAuth from "../../../hook/use-auth";
 import useOrder from "../../../hook/use-order";
@@ -10,6 +10,7 @@ export default function TrackOrder() {
   const { trackOrder, setTrackOrder, handleConfirmDelivery } = useOrder();
   const { orderId } = useParams();
   // console.log(trackOrder?.orderDetails);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getTrackOrder = () => {
@@ -103,6 +104,17 @@ export default function TrackOrder() {
             </button>
           )}
           <ContractDropDown />
+          {trackOrder?.status === "COMPLETE" ||
+          trackOrder?.status === "CANCLE" ? (
+            <div
+              onClick={() => navigate("/order/trackorder")}
+              className="flex justify-center items-center flex-[3] max-w-[50px] rounded-xl cursor-pointer w-fit p-1 bg-primary text-whitetext hover:bg-primaryLight  active:bg-primaryDark active:scale-90 "
+            >
+              <img src="/icons/GoBack.png" className="w-10" />
+            </div>
+          ) : (
+            ""
+          )}
         </div>
       </footer>
     </div>

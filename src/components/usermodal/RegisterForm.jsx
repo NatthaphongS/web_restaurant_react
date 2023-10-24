@@ -100,6 +100,7 @@ export default function RegisterForm({ setIsOpen }) {
         hasError={error.email}
       />
       <RegisterInput
+        type="password"
         label="รหัสผ่าน"
         name="password"
         value={input.password}
@@ -107,6 +108,7 @@ export default function RegisterForm({ setIsOpen }) {
         hasError={error.password}
       />
       <RegisterInput
+        type="password"
         label="ยืนยันรหัสผ่าน"
         name="confirmPassword"
         value={input.confirmPassword}

@@ -65,7 +65,7 @@ export default function OrderList() {
         }
       })}
       {showOrders.map((el) => {
-        if (el.status === "CANCLE") {
+        if (el.status === "CANCEL") {
           return (
             <OrderItem
               key={el.id}

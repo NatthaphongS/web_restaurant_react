@@ -39,20 +39,22 @@ export default function SummaryPage() {
   const [completeOrder, setCompleteOrder] = useState([]);
   const [member, setMember] = useState(0);
   const [totalToday, setTotalToday] = useState({});
-  const [cancleOrder, setCancleOrder] = useState([]);
+  const [cancelOrder, setCancelOrder] = useState([]);
   useEffect(() => {
     axios
       .get("/order/getSummary")
       .then((res) => {
         setCompleteOrder(mapOrder(res.data.newCompleteResult));
-        setCancleOrder(mapOrder(res.data.newCancleResult));
+        setCancelOrder(mapOrder(res.data.newCancelResult));
         setMember(res.data.totalMember);
         setTotalToday(res.data.totalToday);
       })
       .catch((err) => console.log(err));
+    // IIFE : Intermidiatly invoke
+    // (async ()=> {})()
   }, []);
 
-  console.log(totalToday);
+  // console.log(totalToday);
 
   const chartData = {
     labels: past7Days,
@@ -63,8 +65,8 @@ export default function SummaryPage() {
         backgroundColor: "#94CE61",
       },
       {
-        label: "CANCLE",
-        data: cancleOrder,
+        label: "CANCEL",
+        data: cancelOrder,
         backgroundColor: "#ff3333",
       },
     ],

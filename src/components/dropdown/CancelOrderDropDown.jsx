@@ -2,17 +2,17 @@ import { useState } from "react";
 import useDropdown from "../../hook/use-dropdown";
 import useManage from "../../hook/use-manage";
 
-export default function CancleOrderDropDown() {
+export default function CancelOrderDropDown() {
   const { isOpen, setIsOpen, dropDownEl } = useDropdown();
   const [message, setMessage] = useState();
   const [isError, setIsError] = useState(false);
-  const { targetOrder, cancleOrder } = useManage();
+  const { targetOrder, cancelOrder } = useManage();
 
   const handleSubmitForm = async (e) => {
     try {
       e.preventDefault();
       if (message) {
-        await cancleOrder(message, targetOrder.id);
+        await cancelOrder(message, targetOrder.id);
         setMessage();
         setIsOpen(false);
       } else {

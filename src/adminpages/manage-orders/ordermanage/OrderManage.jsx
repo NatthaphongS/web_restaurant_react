@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "../../../config/axios";
 import useManage from "../../../hook/use-manage";
 import Loading from "../../../components/Loading/Loading";
-import CancleOrderDropDown from "../../../components/dropdown/CancleOrderDropDown";
+import CancelOrderDropDown from "../../../components/dropdown/CancelOrderDropDown";
 
 export default function OrderManage() {
   const { orderId } = useParams();
@@ -98,7 +98,7 @@ export default function OrderManage() {
           </div>
         </div>
       </div>
-      {targetOrder.status !== "CANCLE" && targetOrder.status !== "COMPLETE" && (
+      {targetOrder.status !== "CANCEL" && targetOrder.status !== "COMPLETE" && (
         <footer className="bg-primary w-full text-whitetext  px-3 py-3">
           <div className="flex justify-between items-center gap-5 w-full pr-2">
             <button
@@ -112,7 +112,7 @@ export default function OrderManage() {
                 : "จัดส่งเรียบร้อย"}
             </button>
 
-            <CancleOrderDropDown />
+            <CancelOrderDropDown />
           </div>
         </footer>
       )}

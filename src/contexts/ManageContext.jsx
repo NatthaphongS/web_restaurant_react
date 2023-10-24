@@ -52,10 +52,10 @@ export default function ManageContextProvider({ children }) {
     }
   };
 
-  const cancleOrder = async (comment, id) => {
+  const cancelOrder = async (comment, id) => {
     try {
       setIsLoading(true);
-      const res = await axios.patch(`/order/cancle/${id}`, { comment });
+      const res = await axios.patch(`/order/cancel/${id}`, { comment });
       const newTargetOrder = {
         ...targetOrder,
         status: res.data.status,
@@ -77,7 +77,7 @@ export default function ManageContextProvider({ children }) {
         setAllOrders,
         targetOrder,
         setTargetOrder,
-        cancleOrder,
+        cancelOrder,
         updateOrder,
         searchId,
         setSearchId,

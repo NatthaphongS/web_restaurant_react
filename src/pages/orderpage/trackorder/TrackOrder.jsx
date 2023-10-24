@@ -105,7 +105,7 @@ export default function TrackOrder() {
           )}
           <ContractDropDown />
           {trackOrder?.status === "COMPLETE" ||
-          trackOrder?.status === "CANCLE" ? (
+          trackOrder?.status === "CANCEL" ? (
             <div
               onClick={() => navigate("/order/trackorder")}
               className="flex justify-center items-center flex-[3] max-w-[50px] rounded-xl cursor-pointer w-fit p-1 bg-primary text-whitetext hover:bg-primaryLight  active:bg-primaryDark active:scale-90 "

@@ -1,10 +1,10 @@
-import { useNavigate, useParams } from "react-router-dom";
-import ContractDropDown from "../../../components/dropdown/ContactDropDown";
-import useAuth from "../../../hook/use-auth";
-import useOrder from "../../../hook/use-order";
-import { useEffect } from "react";
-import axios from "../../../config/axios";
-import WaveTextAnimation from "./WaveTextAnimation";
+import { useNavigate, useParams } from 'react-router-dom';
+import ContractDropDown from '../../../components/dropdown/ContactDropDown';
+import useAuth from '../../../hook/use-auth';
+import useOrder from '../../../hook/use-order';
+import { useEffect } from 'react';
+import axios from '../../../config/axios';
+import WaveTextAnimation from './WaveTextAnimation';
 
 export default function TrackOrder() {
   const { trackOrder, setTrackOrder, handleConfirmDelivery } = useOrder();
@@ -37,13 +37,13 @@ export default function TrackOrder() {
       </div>
       <div className="overflow-y-scroll h-full">
         <div className="flex items-center justify-center h-[80px]">
-          {trackOrder?.status === "WAITINGPREVIEW" ? (
+          {trackOrder?.status === 'WAITINGPREVIEW' ? (
             <WaveTextAnimation mytext="กำลังตรวจสอบ..." />
-          ) : trackOrder?.status === "COOKING" ? (
+          ) : trackOrder?.status === 'COOKING' ? (
             <WaveTextAnimation mytext="กำลังทำอาหาร..." />
-          ) : trackOrder?.status === "WAITINGDELIVERY" ? (
+          ) : trackOrder?.status === 'WAITINGDELIVERY' ? (
             <WaveTextAnimation mytext="กำลังจัดส่ง..." />
-          ) : trackOrder?.status === "COMPLETE" ? (
+          ) : trackOrder?.status === 'COMPLETE' ? (
             <h6 className="font-semibold text-2xl">สำเร็จ</h6>
           ) : (
             <h6 className="font-semibold text-2xl">ยกเลิก</h6>
@@ -65,11 +65,11 @@ export default function TrackOrder() {
           </p>
           <p className="text-ellipsis line-clamp-1">{trackOrder?.id}</p>
           <p className="text-ellipsis line-clamp-1">
-            <span className="font-semibold">ชื่อ-สกุล</span>:{" "}
+            <span className="font-semibold">ชื่อ-สกุล</span>:{' '}
             {trackOrder?.user.firstName} {trackOrder?.user.lastName}
           </p>
           <p className="text-ellipsis line-clamp-1">
-            <span className="font-semibold">เบอร์โทร</span> :{" "}
+            <span className="font-semibold">เบอร์โทร</span> :{' '}
             {trackOrder?.user.mobile}
           </p>
           <p className="text-ellipsis line-clamp-1 font-semibold">
@@ -87,6 +87,13 @@ export default function TrackOrder() {
               </div>
             ))}
           </div>
+          <div className="flex justify-center items-center rounded-xl overflow-hidden m-6">
+            <img
+              src={trackOrder?.paymentImage}
+              alt="post"
+              className="object-cover w-full h-full"
+            />
+          </div>
         </div>
       </div>
       <footer className="bg-primary w-full text-whitetext px-3 pb-3">
@@ -95,7 +102,7 @@ export default function TrackOrder() {
           <p>{trackOrder?.summaryPrice} บาท</p>
         </div>
         <div className="flex justify-evenly items-center  w-full ">
-          {trackOrder?.status === "WAITINGDELIVERY" && (
+          {trackOrder?.status === 'WAITINGDELIVERY' && (
             <button
               onClick={() => handleConfirmDelivery(trackOrder.id)}
               className="flex justify-center items-center rounded-xl cursor-pointer px-3 w-fit py-2 font-semibold text-lg bg-secondary text-primary hover:bg-secondaryDark active:bg-secondaryDark active:scale-90 "
@@ -104,16 +111,16 @@ export default function TrackOrder() {
             </button>
           )}
           <ContractDropDown />
-          {trackOrder?.status === "COMPLETE" ||
-          trackOrder?.status === "CANCEL" ? (
+          {trackOrder?.status === 'COMPLETE' ||
+          trackOrder?.status === 'CANCEL' ? (
             <div
-              onClick={() => navigate("/order/trackorder")}
+              onClick={() => navigate('/order/trackorder')}
               className="flex justify-center items-center flex-[3] max-w-[50px] rounded-xl cursor-pointer w-fit p-1 bg-primary text-whitetext hover:bg-primaryLight  active:bg-primaryDark active:scale-90 "
             >
               <img src="/icons/GoBack.png" className="w-10" />
             </div>
           ) : (
-            ""
+            ''
           )}
         </div>
       </footer>

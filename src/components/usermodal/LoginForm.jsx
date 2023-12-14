@@ -1,10 +1,9 @@
-import { useState } from "react";
-import LoginInput from "./LoginInput";
-import useAuth from "../../hook/use-auth";
-import { toast } from "react-toastify";
+import { useState } from 'react';
+import LoginInput from './LoginInput';
+import useAuth from '../../hook/use-auth';
 
 export default function LoginForm({ setIsOpen }) {
-  const [input, setInput] = useState({ emailOrMobile: "", password: "" });
+  const [input, setInput] = useState({ emailOrMobile: '', password: '' });
 
   const { login } = useAuth(); //{login:login}
 
@@ -12,12 +11,12 @@ export default function LoginForm({ setIsOpen }) {
   // localstorage setItem('token')
   // stage => user (used many where should keep in context)
   const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
-      e.preventDefault();
       await login(input);
       setIsOpen(false);
     } catch (err) {
-      toast.error(err.response?.data.message);
+      // console.log(error)
     }
   };
   return (
@@ -26,12 +25,12 @@ export default function LoginForm({ setIsOpen }) {
       onSubmit={handleSubmit}
     >
       <LoginInput
-        label={"อีเมล หรือ เบอร์โทร"}
+        label={'อีเมล หรือ เบอร์โทร'}
         value={input.emailOrMobile}
         onChange={(e) => setInput({ ...input, emailOrMobile: e.target.value })}
       />
       <LoginInput
-        label={"รหัสผ่าน"}
+        label={'รหัสผ่าน'}
         type="password"
         value={input.password}
         onChange={(e) => setInput({ ...input, password: e.target.value })}

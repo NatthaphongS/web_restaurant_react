@@ -1,14 +1,14 @@
-import { useState } from "react";
-import Joi from "joi";
-import { toast } from "react-toastify";
+import { useState } from 'react';
+import Joi from 'joi';
+import { toast } from 'react-toastify';
 
-import RegisterInput from "./RegisterInput";
-import useAuth from "../../hook/use-auth";
+import RegisterInput from './RegisterInput';
+import useAuth from '../../hook/use-auth';
 
 const registerSchema = Joi.object({
   firstName: Joi.string().trim().required(),
   lastName: Joi.string().trim().required(),
-  email: Joi.string().email({ tlds: false }).allow(null).allow(""),
+  email: Joi.string().email({ tlds: false }).allow(null).allow(''),
   mobile: Joi.string()
     .pattern(/^[0-9]{10}$/)
     .required(),
@@ -17,7 +17,7 @@ const registerSchema = Joi.object({
     .trim()
     .required(),
   confirmPassword: Joi.string()
-    .valid(Joi.ref("password"))
+    .valid(Joi.ref('password'))
     .trim()
     .required()
     .strip(),
@@ -38,12 +38,12 @@ const validateRegister = (input) => {
 
 export default function RegisterForm({ setIsOpen }) {
   const [input, setInput] = useState({
-    firstName: "",
-    lastName: "",
-    mobile: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
+    firstName: '',
+    lastName: '',
+    mobile: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
   });
   const [error, setError] = useState({});
   const { register } = useAuth();
@@ -52,8 +52,9 @@ export default function RegisterForm({ setIsOpen }) {
   };
 
   const handleSubmit = async (e) => {
+    e.preventDefault();
+
     try {
-      e.preventDefault();
       // validate
       const validationError = validateRegister(input); // undefined หรือ  error object
       if (validationError) {
@@ -63,7 +64,7 @@ export default function RegisterForm({ setIsOpen }) {
       await register(input);
       setIsOpen(false);
     } catch (err) {
-      toast.error(err.response?.data.message);
+      // console.log(err);
     }
   };
 

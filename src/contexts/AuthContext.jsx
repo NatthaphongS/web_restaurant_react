@@ -1,14 +1,14 @@
-import { useEffect } from "react";
-import { createContext } from "react";
+import { useEffect } from 'react';
+import { createContext } from 'react';
 
-import axios from "../config/axios";
+import axios from '../config/axios';
 import {
   addAccessToken,
   getAccessToken,
   removeAccessToken,
-} from "../utils/local-storage";
-import { useState } from "react";
-import { toast } from "react-toastify";
+} from '../utils/local-storage';
+import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 export const AuthContext = createContext();
 
@@ -19,7 +19,7 @@ export default function AuthContextProvider({ children }) {
   useEffect(() => {
     if (getAccessToken()) {
       axios
-        .get("/auth/me")
+        .get('/auth/me')
         .then((res) => setAuthUser(res.data.user))
         .catch((err) => console.log(err))
         .finally(() => setInitialLoading(false));
@@ -29,25 +29,47 @@ export default function AuthContextProvider({ children }) {
   }, []);
 
   const login = async (credentail) => {
+    const id = toast.loading(`Login process`);
     try {
-      const res = await axios.post("/auth/login", credentail);
+      const res = await axios.post('/auth/login', credentail);
       addAccessToken(res.data.accessToken);
       setAuthUser(res.data.user);
-      toast.success(res.data.message);
+      toast.update(id, {
+        render: res.data.message,
+        type: 'success',
+        isLoading: false,
+        autoClose: 3000,
+      });
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.update(id, {
+        render: error.response?.data.message,
+        type: 'error',
+        isLoading: false,
+        autoClose: 3000,
+      });
     }
     // console.log(credentail);
   };
 
   const register = async (registerInputObject) => {
+    const id = toast.loading(`Register process`);
     try {
-      const res = await axios.post("/auth/register", registerInputObject);
+      const res = await axios.post('/auth/register', registerInputObject);
       addAccessToken(res.data.accessToken);
       setAuthUser(res.data.user);
-      toast.success(res.data.message);
+      toast.update(id, {
+        render: res.data.message,
+        type: 'success',
+        isLoading: false,
+        autoClose: 3000,
+      });
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.update(id, {
+        render: error.response?.data.message,
+        type: 'error',
+        isLoading: false,
+        autoClose: 3000,
+      });
     }
   };
 

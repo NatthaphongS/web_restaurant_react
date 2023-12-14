@@ -43,14 +43,14 @@ export default function OrderPage() {
         )}
         <div className="h-full  overflow-y-scroll overflow-x-hidden orderscroll">
           <OrderHeader category={category} setCategory={setCategory} />
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 w-fit mx-auto mb-[50px]">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 w-fit mx-auto mb-[50px]">
             {menus.map((el) => (
               <OrderCard key={el.id} menuDetail={el} />
             ))}
           </div>
         </div>
       </div>
-      <div className="h-full flex-[3] border-l-4 border-primary">
+      <div className="h-full flex-[3] min-w-[300px] lg:min-w-[350px] border-l-4 border-primary">
         {isLoading && <Loading />}
         <Outlet />
       </div>

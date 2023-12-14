@@ -1,8 +1,7 @@
-import { ToastContainer } from "react-toastify";
-import Route from "./router/Router";
-import useAuth from "./hook/use-auth";
-import Loading from "./components/Loading/Loading";
-import HeroSlideShow from "./pages/homepage/HeroSlideShow";
+import { ToastContainer } from 'react-toastify';
+import Route from './router/Router';
+import useAuth from './hook/use-auth';
+import Loading from './components/Loading/Loading';
 
 function App() {
   const { initialLoading } = useAuth();

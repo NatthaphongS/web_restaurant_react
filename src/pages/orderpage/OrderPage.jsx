@@ -3,21 +3,24 @@ import OrderHeader from './order/OrderHeader';
 import OrderCard from './order/OrderCard';
 import useMenu from '../../hook/use-menu';
 import './OrderPage.css';
-import { Link, Outlet, useResolvedPath } from 'react-router-dom';
+import { Outlet, useResolvedPath } from 'react-router-dom';
 import useOrder from '../../hook/use-order';
 import Loading from '../../components/Loading/Loading';
-import Button from '../../components/Button/Button';
 
 export default function OrderPage() {
   const [category, setCategory] = useState('MAIN');
   const [menus, setMenus] = useState([]);
   const { getMenu } = useMenu();
   const { pathname } = useResolvedPath();
-  const { isLoading, ordering } = useOrder();
+  const { ordering } = useOrder();
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     getMenu(category)
-      .then((res) => setMenus(res.data?.menus))
+      .then((res) => {
+        setMenus(res.data?.menus);
+        setIsLoading(false);
+      })
       .catch((err) => console.log(err));
   }, [category]);
 
@@ -43,15 +46,18 @@ export default function OrderPage() {
         )}
         <div className="h-full  overflow-y-scroll overflow-x-hidden orderscroll">
           <OrderHeader category={category} setCategory={setCategory} />
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 w-fit mx-auto mb-[50px]">
-            {menus.map((el) => (
-              <OrderCard key={el.id} menuDetail={el} />
-            ))}
-          </div>
+          {isLoading ? (
+            <Loading />
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 w-fit mx-auto mb-[50px]">
+              {menus.map((el) => (
+                <OrderCard key={el.id} menuDetail={el} />
+              ))}
+            </div>
+          )}
         </div>
       </div>
       <div className="h-full flex-[3] min-w-[300px] lg:min-w-[350px] border-l-4 border-primary">
-        {isLoading && <Loading />}
         <Outlet />
       </div>
     </div>

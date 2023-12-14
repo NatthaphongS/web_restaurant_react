@@ -10,7 +10,7 @@ export default function HomePage() {
     <>
       <div className="lg:h-[675px] flex w-full justify-center pt-10">
         <div className="flex  items-center w-full max-w-[1440px] gap-[30px] flex-wrap pl-10 lg:pl-0">
-          <div className="flex flex-col justify-center items-center gap-[32px] z-10 flex-[4] ">
+          <div className="flex flex-col justify-center items-center gap-[32px] z-10 flex-[6] lg:flex-[4] ">
             <img src="./heroPic.png" alt="NaUdon" className="w-[304px]" />
             <div>
               <h5>"อร่อยครบรส เพราะชูรสครึ่งซอง"</h5>

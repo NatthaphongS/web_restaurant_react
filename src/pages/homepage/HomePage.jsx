@@ -1,9 +1,9 @@
-import { Link } from "react-router-dom";
-import Button from "../../components/Button/Button";
-import HeroSlideShow from "./HeroSlideShow";
-import MenuCarousel from "./menuCarousel";
-import { useState } from "react";
-import UserModal from "../../components/usermodal/UserModal";
+import { Link } from 'react-router-dom';
+import Button from '../../components/Button/Button';
+import HeroSlideShow from './HeroSlideShow';
+import MenuCarousel from './MenuCarousel';
+import { useState } from 'react';
+import UserModal from '../../components/usermodal/UserModal';
 export default function HomePage() {
   const [isOpen, setIsOpen] = useState(false);
   return (

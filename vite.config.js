@@ -7,9 +7,4 @@ export default defineConfig({
   server: {
     open: true,
   },
-  build: {
-    rollupOptions: {
-      external: ['react-toastify/dist/ReactToastify.css'],
-    },
-  },
 });
